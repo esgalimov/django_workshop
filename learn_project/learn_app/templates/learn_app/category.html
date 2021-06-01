@@ -5,13 +5,7 @@
 {% endblock title %}
 
 {% block sidebar %}
-<div class="col-md-3">
-    <div class="list-group">
-        {% for item in categories %}
-        <a href="{% url 'category' item.pk %}" class="list-group-item list-group-item-action">{{item.title}}</a>
-        {% endfor %}
-    </div>
-</div>
+    {% include 'inc/_sidebar.html' %}
 {% endblock sidebar %}
 
 {% block content %}
@@ -31,7 +25,7 @@
                 <div class="media-body">
                     <h5 class="card-title">{{item.title}}</h5>
                     <p class="card-text">{{item.content|truncatewords:50}}</p>
-                    <a href="#" class="btn btn-primary">Read more...</a>
+                    <a href="{{ item.get_absolute_url }}" class="btn btn-primary">Read more...</a>
                 </div>
             </div>
 
