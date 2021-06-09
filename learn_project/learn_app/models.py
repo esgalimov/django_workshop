@@ -10,6 +10,7 @@ class News(models.Model):
     photo = models.ImageField(upload_to='photos/%Y/%m/%d/', blank=True, verbose_name='Фото')
     is_published = models.BooleanField(default=False, verbose_name='Опубликовано')
     category = models.ForeignKey('Category', on_delete=models.PROTECT, verbose_name='Категория')
+    views = models.IntegerField(default=0)
     # related_name='get_news' - имя атрибута для доступа к новостям из первичной модели
 
     def get_absolute_url(self):

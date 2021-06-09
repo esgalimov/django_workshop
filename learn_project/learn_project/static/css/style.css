@@ -5,3 +5,7 @@ body {
 .errorlist {
     color: red;
 }
+
+.reg-log-nav {
+    justify-content: space-between;
+}

@@ -4,15 +4,23 @@
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="collapse navbar-collapse reg-log-nav" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'home' %}">Главная</a>
                 </li>
+                {% if request.user.is_authenticated %}
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'add_news' %}">Добавить новость</a>
                 </li>
+                {% endif %}
             </ul>
-        </div>
+            <span class="navbar-text">
+            {% if request.user.is_authenticated %}
+            {{ user.username }} | <a href="{% url 'logout' %}">Выход</a>
+            {% else %}
+                <a href="{% url 'register' %}">Register</a> | <a href="{% url 'login' %}">Login</a>
+            {% endif %}
+      </span>
     </div>
 </nav>
