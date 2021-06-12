@@ -2,13 +2,14 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
 from django.views.generic import ListView, DetailView, CreateView
 from .models import News, Category
-from .forms import NewsForm, UserRegisterForm, UserLoginForm
+from .forms import NewsForm, UserRegisterForm, UserLoginForm, ContactForm
 from django.urls import reverse_lazy
 from .utils import MyMixin
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.paginator import Paginator
 from django.contrib import messages
 from django.contrib.auth import login, logout
+from django.core.mail import send_mail
 
 
 def register(request):
@@ -46,18 +47,26 @@ def user_logout(request):
     return redirect('login')
 
 
-def test(request):
-    # объекты
-    objects = ['john1', 'paul2', 'george3', 'ringo4',
-               'john5', 'paul6', 'george7', 'ringo8']
-    # экземпляр класса, отвечающего за постраничную навигацию
-    # получает объекты, и кол-во объектов на одно странице
-    paginator = Paginator(objects, 2)
-    # получаем номер страницы из параметра get запроса, если его нет -  подставляем 1.
-    page_num = request.GET.get('page', 1)
-    # получаем объекты с нужной страницы
-    page_objects = paginator.get_page(page_num)
-    return render(request, 'learn_app/test.html', {'page_obj': page_objects})
+def contact(request):
+    if request.method == 'POST':
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            # функция для отправки
+            mail = send_mail(form.cleaned_data['subject'],
+                      form.cleaned_data['content'],
+                      'EMAIL_FROM',
+                      ['EMAIL_TO'],
+                      fail_silently=False)
+            if mail:
+                messages.success(request, 'Письмо отправлено')
+                return redirect('contact')
+            else:
+                messages.error(request, 'Ошибка отправки')
+        else:
+            messages.error(request, 'Ошибка')
+    else:
+        form = ContactForm()
+    return render(request, 'learn_app/test.html', {'form': form})
 
 
 class HomeNews(ListView):

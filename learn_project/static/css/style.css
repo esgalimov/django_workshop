@@ -1,3 +1,11 @@
 body {
-    background-color: #fefefe;
+    background-color: #ffffff;
+}
+
+.errorlist {
+    color: red;
+}
+
+.reg-log-nav {
+    justify-content: space-between;
 }

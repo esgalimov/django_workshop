@@ -19,10 +19,14 @@ from django.conf import settings
 from django.conf.urls.static import static
 import debug_toolbar
 
+
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('ckeditor/', include('ckeditor_uploader.urls')),
+    path('captcha/', include('captcha.urls')),
     path('', include('learn_app.urls'))
 ]
+
 
 if settings.DEBUG:
     # debug toolbar добавить сюда
